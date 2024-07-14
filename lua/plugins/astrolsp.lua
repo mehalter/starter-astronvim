@@ -1,5 +1,3 @@
-if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
-
 -- AstroLSP allows you to customize the features in AstroNvim's LSP configuration engine
 -- Configuration documentation can be found with `:h astrolsp`
 -- NOTE: We highly recommend setting up the Lua Language Server (`:LspInstall lua_ls`)
@@ -8,6 +6,7 @@ if true then return {} end -- WARN: REMOVE THIS LINE TO ACTIVATE THIS FILE
 ---@type LazySpec
 return {
   "AstroNvim/astrolsp",
+  dependencies = { "nvim-java/nvim-java" },
   ---@type AstroLSPOpts
   opts = {
     -- Configuration table of features provided by AstroLSP
@@ -48,6 +47,15 @@ return {
     },
     -- customize how language servers are attached
     handlers = {
+      jdtls = function(_, _)
+        require("java").setup {
+          -- Your custom nvim-java configuration goes here
+        }
+
+        require("lspconfig").jdtls.setup {
+          -- Your custom jdtls settings goes here
+        }
+      end,
       -- a function without a key is simply the default handler, functions take two parameters, the server name and the configured options table for that server
       -- function(server, opts) require("lspconfig")[server].setup(opts) end
 
